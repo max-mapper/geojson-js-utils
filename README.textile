@@ -1,0 +1,29 @@
+h1. GeoJSON Utilities for JavaScript
+
+Here you will find some simple utility functions to help you turn GeoJSON objects into a valid feature collection. 
+
+This was written because I wanted to display arbitrary GeoJSON objects using OpenLayers, but an OpenLayers Strategy will only accept a FeatureCollection. I use these functions to turn my basic geometries (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon) into valid FeatureCollections.
+
+h2. Example
+
+Here's an array of two GeoJSON Point objects:
+
+<pre><code>
+[{"coordinates" : [-122.672727,45.521561],"type" : "Point"}, 
+ {"coordinates" : [-122.675647,45.523729],"type" : "Point"}]
+</code></pre>
+
+If you feed that through the @GeoJSONHelper.feature_collection_for@ function you will receive:
+
+<pre><code>
+{ "type" : "FeatureCollection",
+  "features" : [{"geometry" : 
+    { "type" : "GeometryCollection",
+      "geometries" : [
+        { "coordinates" : [-122.672727,45.521561], "type" : "Point" },
+        { "coordinates" : [-122.675647,45.523729], "type" : "Point" }
+      ]
+    }}
+  ]
+}
+</code></pre>
