@@ -13,7 +13,7 @@ Here's an array of two GeoJSON Point objects:
  {"coordinates" : [-122.675647,45.523729],"type" : "Point"}]
 </code></pre>
 
-If you feed that through the @GeoJSONHelper.feature_collection_for@ function you will receive:
+If you feed that through the @GeoJSON.feature_collection_for(geometry)@ function you will receive:
 
 <pre><code>
 { "type" : "FeatureCollection",
