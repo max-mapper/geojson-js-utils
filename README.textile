@@ -1,10 +1,10 @@
 h1. GeoJSON Utilities for JavaScript
 
-Here you will find some simple utility functions to help you turn GeoJSON objects into a valid feature collection. 
+Here you will find some simple utility functions to help you manipulate and work with GeoJSON objects. 
+
+h2. Feature Collection Wrapping
 
 This was written because I wanted to display arbitrary GeoJSON objects using OpenLayers, but an OpenLayers Strategy will only accept a FeatureCollection. I use these functions to turn my basic geometries (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon) into valid FeatureCollections.
-
-h2. Example
 
 Here's an array of two GeoJSON Point objects:
 
@@ -27,3 +27,15 @@ If you feed that through the @GeoJSON.feature_collection_for(geometry)@ function
   ]
 }
 </code></pre>
+
+h2. Polygon Intersections
+
+Given some GeoJSON polygon objects:
+
+<pre><code>
+	var intersects_1 = { "type" :"Polygon","coordinates": [[0, 5], [5, 5], [3, 9]]};
+	var intersects_2 = { "type" :"Polygon","coordinates": [[9, 0], [3, 3], [9, 9]]};
+</code></pre>
+
+If you feed these through @GeoJSON.polygonsIntersect(intersects_1, intersects_2)@ function you will receive @true@. If your polygons don't intercept, you will receive @false@.
+
