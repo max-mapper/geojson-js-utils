@@ -1,32 +1,5 @@
 var GeoJSON = function() {
   return {
-    // map borrowed from http://github.com/janl/mustache.js/blob/master/mustache.js
-    map : function(array, fn) {
-      if (typeof array.map == "function") {
-        return array.map(fn);
-      } else {
-        var r = [];
-        var l = array.length;
-        for(var i = 0; i < l; i++) {
-          r.push(fn(array[i]));
-        }
-        return r;
-      }
-    },
-    collect_geometries : function(geometries) {
-      if (geometries.type == 'GeometryCollection')
-        return geometries;
-      return [{"type" : "GeometryCollection", "geometries" : geometries }]
-    },
-    collect_features : function(features){
-      if (features.type == 'FeatureCollection')
-        return features;
-      return { "type" : "FeatureCollection", "features" : GeoJSON.map(features, function(feature){return {"geometry" : feature}})}
-    },
-    feature_collection_for : function(geojson) {
-      return this.collect_features(this.collect_geometries(geojson));
-    },
-    
     Vector: function(x, y) {
       this.x = x;
       this.y = y;
@@ -64,7 +37,7 @@ var GeoJSON = function() {
     intersect: 3,
     colinear_intersect: 4,
 
-    lineIntersect: function(seg1, seg2, intersectionPoint) {
+    linesIntersect: function(seg1, seg2, intersectionPoint) {
     	p = seg1.p1;
     	r = seg1.p2.subtract(seg1.p1);
     	q = seg2.p1;
@@ -86,6 +59,7 @@ var GeoJSON = function() {
     },
 
     polygonsIntersect: function(pol1, pol2) {
+      //todo: check for large distances
       //todo: make this not suck, written after not sleeping for 24 hours
       for(var x = 0; x < pol1.coordinates.length; x++) {
         for(var y = 0; y < pol2.coordinates.length; y++) {
@@ -129,12 +103,12 @@ var GeoJSON = function() {
           var seg1 = new GeoJSON.Segment(new GeoJSON.Vector(xa1, ya1), new GeoJSON.Vector(xa2, ya2));
           var seg2 = new GeoJSON.Segment(new GeoJSON.Vector(xb1, yb1), new GeoJSON.Vector(xb2, yb2));
           var intersectionPoint = new GeoJSON.Vector(0, 0);
-          if(GeoJSON.lineIntersect(seg1, seg2, intersectionPoint) == GeoJSON.intersect) {
+          if(GeoJSON.linesIntersect(seg1, seg2, intersectionPoint) == GeoJSON.intersect) {
         	  return true;
           }
         }
       }
       return false;
     }
-  };
+  }
 }();
