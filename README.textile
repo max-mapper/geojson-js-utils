@@ -1,41 +1,57 @@
 h1. GeoJSON Utilities for JavaScript
 
-Here you will find some simple utility functions to help you manipulate and work with GeoJSON objects. 
+Here you will find some simple utility functions to help you manipulate and work with GeoJSON objects.
 
-h2. Feature Collection Wrapping
+Some algorithms ported from https://github.com/bjwbell/canvas-geolib 
 
-This was written because I wanted to display arbitrary GeoJSON objects using OpenLayers, but an OpenLayers Strategy will only accept a FeatureCollection. I use these functions to turn my basic geometries (Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon) into valid FeatureCollections.
+h2. Line intersections
 
-Here's an array of two GeoJSON Point objects:
+<pre>
+  <code>
+    var g = require('geojson-utils.js').init()
 
-<pre><code>
-[{"coordinates" : [-122.672727,45.521561],"type" : "Point"}, 
- {"coordinates" : [-122.675647,45.523729],"type" : "Point"}]
-</code></pre>
+    g.linesIntersect([[0,6],[6,6]], [[0,3],[6,3]])
+    => false
 
-If you feed that through the @GeoJSON.feature_collection_for(geometry)@ function you will receive:
+    g.linesIntersect([[0,6],[6,6]], [[3,0],[3,9]])
+    => [3,6]
+  </code>
+</pre>
 
-<pre><code>
-{ "type" : "FeatureCollection",
-  "features" : [{"geometry" : 
-    { "type" : "GeometryCollection",
-      "geometries" : [
-        { "coordinates" : [-122.672727,45.521561], "type" : "Point" },
-        { "coordinates" : [-122.675647,45.523729], "type" : "Point" }
-      ]
-    }}
-  ]
-}
-</code></pre>
+h2. Point in polygon
 
-h2. Polygon Intersections
+<pre>
+  <code>
+    g.pointInPolygon([3,3], [[0,0],[0,6],[6,6],[6,0]])
+    => true
+    
+    g.pointInPolygon([-1,-1], [[0,0],[0,6],[6,6],[6,0]])
+    => false
+  </code>
+</pre>
 
-Given some GeoJSON polygon objects:
+h2. and much much more! read the codez
 
-<pre><code>
-var intersects_1 = { "type" :"Polygon","coordinates": [[0, 5], [5, 5], [3, 9]]};
-var intersects_2 = { "type" :"Polygon","coordinates": [[9, 0], [3, 3], [9, 9]]};
-</code></pre>
+h4. License
 
-If you feed these through @GeoJSON.polygonsIntersect(intersects_1, intersects_2)@ function you will receive @true@. If your polygons don't intercept, you will receive @false@.
+The MIT License
 
+Copyright (c) 2010 Max Ogden
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
