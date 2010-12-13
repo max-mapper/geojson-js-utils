@@ -1,24 +1,32 @@
 exports.init = function() {
   var g = {};
 
-  // adapted from http://bloggingmath.wordpress.com/2009/05/29/line-segment-intersection/
-  g.linesIntersect = function(linestring1, linestring2) {
-    var seg1 = linestring1.coordinates,
-        seg2 = linestring2.coordinates,
-        p = seg1[0],
-  	    r = g.subtractVector(seg1[1], p),
-  	    q = seg2[0],
-  	    s = g.subtractVector(seg2[1], q);
-  	var rCrossS = g.crossProduct(r, s);
-  	var t = g.cross(g.subtractVector(q,p), s) / rCrossS;
-  	var u = g.cross(g.subtractVector(q,p), r) / rCrossS;
-  	if (0 <= u && u <= 1 && 0 <= t && t <= 1) {
-  		var intersectionPoint = g.addVector(p, g.scalarMultiply(r, t));
-  		return { 'type': 'Point',
-  		         'coordinates': intersectionPoint };
-  	} else {
-  		return false;
-  	}
+  // adapted from http://www.kevlindev.com/gui/math/intersection/Intersection.js
+  g.lineStringsIntersect = function(l1, l2) {
+    var intersects = [];
+    for (var i = 0; i <= l1.coordinates.length - 2; ++i) {
+      for (var j = 0; j <= l2.coordinates.length - 2; ++j) {            
+        var a1 = {x: l1.coordinates[i][1], y: l1.coordinates[i][0]},
+            a2 = {x: l1.coordinates[i+1][1], y: l1.coordinates[i+1][0]},
+            b1 = {x: l2.coordinates[j][1], y: l2.coordinates[j][0]},
+            b2 = {x: l2.coordinates[j+1][1], y: l2.coordinates[j+1][0]},
+            ua_t = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x),
+            ub_t = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x),
+            u_b  = (b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y);
+        if ( u_b != 0 ) {
+          var ua = ua_t / u_b,
+              ub = ub_t / u_b;
+          if ( 0 <= ua && ua <= 1 && 0 <= ub && ub <= 1 ) {
+            intersects.push({ 
+              'type': 'Point',
+              'coordinates': [a1.x + ua * (a2.x - a1.x), a1.y + ua * (a2.y - a1.y)]
+            });
+          }
+        }
+      }
+    }
+    if (intersects.length == 0) intersects = false;
+    return intersects;
   }
 
   g.scalarMultiply = function(xy, scalar) {
@@ -46,7 +54,7 @@ exports.init = function() {
       var px = poly[i][1], py = poly[i][0],
           jx = poly[j][1], jy = poly[j][0];
       if (((py <= y && y < jy) || (jy <= y && y < py)) && (x < (jx - px) * (y - py) / (jy - py) + px)) {
-        c = true;
+        c = [point];
       }
     }
     return c;

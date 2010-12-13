@@ -1,20 +1,32 @@
 h1. GeoJSON Utilities for JavaScript
 
-Here you will find some simple utility functions to help you manipulate and work with GeoJSON objects.
+Here you will find some functions to help you manipulate and work with GeoJSON objects.
 
 Some algorithms adapted from "bjwbell/canvas-geolib":https://github.com/bjwbell/canvas-geolib
+
+h2. How to use!
+
+Load up with your favorite "CommonJS module implementation":http://wiki.commonjs.org/wiki/Modules/1.1:
+
+<pre>
+  <code>
+    var g = require('geojson-utils.js').init();
+  </pre>
+</code>
+
+Remember, GeoJSON coordinates are ordered [y,x] to comply with the Open Geospatial Consortium's recommendation!
 
 h2. Line intersections
 
 <pre>
   <code>
-    var g = require('geojson-utils.js').init()
+    g.linesIntersect({ "type": "LineString", "coordinates": [[0, 2], [5, 2]] },
+                     { "type": "LineString", "coordinates": [[3, 0], [3, 4], [4,4], [4,0]] })
+    => [{"type":"Point","coordinates":[2,3]},{"type":"Point","coordinates":[2,4]}]
 
-    g.linesIntersect([[0,6],[6,6]], [[0,3],[6,3]])
+    g.linesIntersect({ "type": "LineString", "coordinates": [[0, 2], [5, 2]] },
+                     { "type": "LineString", "coordinates": [[0, 0], [5, 0]] })
     => false
-
-    g.linesIntersect([[0,6],[6,6]], [[3,0],[3,9]])
-    => [3,6]
   </code>
 </pre>
 
@@ -22,10 +34,11 @@ h2. Point in polygon
 
 <pre>
   <code>
-    g.pointInPolygon([3,3], [[0,0],[0,6],[6,6],[6,0]])
-    => true
-    
-    g.pointInPolygon([-1,-1], [[0,0],[0,6],[6,6],[6,0]])
+    g.pointInPolygon({"type":"Point","coordinates":[3,3]}, 
+                     {"type":"Polygon", "coordinates":[[[0,0],[6,0],[6,6],[0,6]]]})
+    => [{"type":"Point","coordinates":[3,3]}]
+    g.pointInPolygon({"type":"Point","coordinates":[-1,-1]}, 
+                     {"type":"Polygon", "coordinates":[[[0,0],[6,0],[6,6],[0,6]]]})
     => false
   </code>
 </pre>
