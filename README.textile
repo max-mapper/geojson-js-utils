@@ -2,7 +2,7 @@ h1. GeoJSON Utilities for JavaScript
 
 Here you will find some simple utility functions to help you manipulate and work with GeoJSON objects.
 
-Some algorithms ported from https://github.com/bjwbell/canvas-geolib 
+Some algorithms adapted from "bjwbell/canvas-geolib":https://github.com/bjwbell/canvas-geolib
 
 h2. Line intersections
 
@@ -30,7 +30,9 @@ h2. Point in polygon
   </code>
 </pre>
 
-h2. and much much more! read the codez
+h2. and much much more!
+
+* "example usage with GeoCouch":https://github.com/maxogden/vmxch/blob/master/lists/radius.js
 
 h4. License
 
