@@ -6,13 +6,15 @@ Some algorithms adapted from "bjwbell/canvas-geolib":https://github.com/bjwbell/
 
 h2. How to use!
 
-Load up with your favorite "CommonJS module implementation":http://wiki.commonjs.org/wiki/Modules/1.1:
+Load up in a browser OR with your favorite "CommonJS module implementation":http://wiki.commonjs.org/wiki/Modules/1.1:
 
 <pre>
   <code>
-    var g = require('geojson-utils.js').init();
+    var gju = require('geojson-utils.js');
   </pre>
 </code>
+
+You now have an object named <code>gju</code> that contains all of the helper functions.
 
 Remember, GeoJSON coordinates are ordered [y,x] to comply with the Open Geospatial Consortium's recommendation!
 
@@ -20,11 +22,11 @@ h2. Line intersections
 
 <pre>
   <code>
-    g.linesIntersect({ "type": "LineString", "coordinates": [[0, 2], [5, 2]] },
+    gju.linesIntersect({ "type": "LineString", "coordinates": [[0, 2], [5, 2]] },
                      { "type": "LineString", "coordinates": [[3, 0], [3, 4], [4,4], [4,0]] })
     => [{"type":"Point","coordinates":[2,3]},{"type":"Point","coordinates":[2,4]}]
 
-    g.linesIntersect({ "type": "LineString", "coordinates": [[0, 2], [5, 2]] },
+    gju.linesIntersect({ "type": "LineString", "coordinates": [[0, 2], [5, 2]] },
                      { "type": "LineString", "coordinates": [[0, 0], [5, 0]] })
     => false
   </code>
@@ -34,12 +36,37 @@ h2. Point in polygon
 
 <pre>
   <code>
-    g.pointInPolygon({"type":"Point","coordinates":[3,3]}, 
+    gju.pointInPolygon({"type":"Point","coordinates":[3,3]}, 
                      {"type":"Polygon", "coordinates":[[[0,0],[6,0],[6,6],[0,6]]]})
     => [{"type":"Point","coordinates":[3,3]}]
-    g.pointInPolygon({"type":"Point","coordinates":[-1,-1]}, 
+    gju.pointInPolygon({"type":"Point","coordinates":[-1,-1]}, 
                      {"type":"Polygon", "coordinates":[[[0,0],[6,0],[6,6],[0,6]]]})
     => false
+  </code>
+</pre>
+
+h2. Radius filtering
+
+WARNING: Only works against points right now. TODO: Lines and polygons
+
+If you retrieve a bunch of results from a bounding box query (common with R-Tree geo DBs), but you want to filter the rectangular result set by circular radius:
+
+<pre>
+  <code>
+    // get the center of the original bounding box
+    var center = gju.rectangleCentroid({ 
+      "type": "Polygon",
+      "coordinates": [[[-122.677, 45.523],[-122.675, 45.524]]]
+    }),
+    // draw a circular polygon from the center of
+    // the bounding box with a 100 meter radius
+    circle = g.drawCircle(100, center);
+    
+    for (var point in listOfPointsReturnedFromBoundingBoxQuery) {
+      if (gju.pointInPolygon(point, circle)) {
+        // ... do stuff with points inside the circle
+      } 
+    }
   </code>
 </pre>
 
