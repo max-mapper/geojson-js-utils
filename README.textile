@@ -70,6 +70,18 @@ If you retrieve a bunch of results from a bounding box query (common with R-Tree
   </code>
 </pre>
 
+h2. Distance between two points
+
+Uses the Haversine distance formula to calculate the distance between two points on the Earth's curved surface (as the crow flies, no hills!). Returns the distance in meters.
+
+<pre>
+  <code>    
+    gju.pointDistance({type: 'Point', coordinates:[-122.67738461494446, 45.52319466622903]}, 
+                      {type: 'Point', coordinates:[-122.67652630805969, 45.52319466622903]})
+    => 66.86677669313518
+  </code>
+</pre>
+
 h2. and much much more!
 
 * "example usage with GeoCouch":https://github.com/maxogden/vmxch/blob/master/lists/radius.js
