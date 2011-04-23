@@ -98,7 +98,44 @@
         Math.sin(dLon/2) * Math.sin(dLon/2),
       c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     return (6371 * c) * 1000; // returns meters
-  }
+  },
+  
+  gju.area = function(points) {
+    var area = 0;
+    // TODO: polygon holes at coordinates[1]
+    var points = polygon.coordinates[0];
+    var j = points.length - 1;
+    var p1, p2;
+
+    for (var i=0; i < points.length; j = i++) {
+      var p1 = {x: points[i][1], y: points[i][0]};
+      var p2 = {x: points[j][1], y: points[j][0]};
+      area += p1.x * p2.y;
+      area -= p1.y * p2.x;
+    }
+
+    area /= 2;
+    return area;
+  },
+
+  gju.centroid = function(polygon) {
+    var f, x = 0, y = 0;
+    // TODO: polygon holes at coordinates[1]
+    var points = polygon.coordinates[0];
+    var j = points.length - 1;
+    var p1, p2;
+
+    for (var i=0; i < points.length; j = i++) {
+      var p1 = {x: points[i][1], y: points[i][0]};
+      var p2 = {x: points[j][1], y: points[j][0]};
+      f = p1.x * p2.y - p2.x * p1.y;
+      x += (p1.x + p2.x) * f;
+      y += (p1.y + p2.y) * f;
+    }
+
+    f = gju.area(polygon) * 6;
+    return { 'type': 'Point', 'coordinates': [y/f, x/f] };
+  },
 
   gju.simplify = function (source, kink) {
     /* source[] array of geojson points */
@@ -117,7 +154,7 @@
   
     /* check for simple cases */
   
-    if ( source.length < 3 )return(source);  /* one or two points */
+    if ( source.length < 3 ) return(source);  /* one or two points */
   
     /* more complex case. initialize stack */
 
