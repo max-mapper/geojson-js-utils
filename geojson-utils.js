@@ -100,6 +100,7 @@
     return (6371 * c) * 1000; // returns meters
   },
   
+  // adapted from http://paulbourke.net/geometry/polyarea/javascript.txt
   gju.area = function(points) {
     var area = 0;
     // TODO: polygon holes at coordinates[1]
@@ -118,6 +119,7 @@
     return area;
   },
 
+  // adapted from http://paulbourke.net/geometry/polyarea/javascript.txt
   gju.centroid = function(polygon) {
     var f, x = 0, y = 0;
     // TODO: polygon holes at coordinates[1]
