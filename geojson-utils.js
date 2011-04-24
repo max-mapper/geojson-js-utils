@@ -101,7 +101,7 @@
   },
   
   // adapted from http://paulbourke.net/geometry/polyarea/javascript.txt
-  gju.area = function(points) {
+  gju.area = function(polygon) {
     var area = 0;
     // TODO: polygon holes at coordinates[1]
     var points = polygon.coordinates[0];
