@@ -60,7 +60,7 @@ If you retrieve a bunch of results from a bounding box query (common with R-Tree
     }),
     // draw a circular polygon from the center of
     // the bounding box with a 100 meter radius
-    circle = g.drawCircle(100, center);
+    circle = gju.drawCircle(100, center);
     
     for (var point in listOfPointsReturnedFromBoundingBoxQuery) {
       if (gju.pointInPolygon(point, circle)) {
