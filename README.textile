@@ -54,7 +54,7 @@ If you retrieve a bunch of results from a bounding box query (common with R-Tree
 <pre>
   <code>
     // get the center of the original bounding box
-    var center = gju.rectangleCentroid({ 
+    var center = gju.rectangleCentroid({
       "type": "Polygon",
       "coordinates": [[[-122.677, 45.523],[-122.675, 45.524]]]
     }),
@@ -64,7 +64,7 @@ If you retrieve a bunch of results from a bounding box query (common with R-Tree
     radius = 100;
     
     for (var point in listOfPointsReturnedFromBoundingBoxQuery) {
-      if (gju.pointDistance(point, center) >= radius) {
+      if (gju.pointDistance(point, center) <= radius) {
         // ... do stuff with points inside the circle
       } 
     }
