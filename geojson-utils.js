@@ -99,6 +99,30 @@
       c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     return (6371 * c) * 1000; // returns meters
   },
+
+  // checks if geometry lies entirely within a circle
+  // works with Point, LineString, Polygon
+  gju.geometryWithinRadius = function(geometry, center, radius) {
+    if (geometry.type == 'Point') {
+      return gju.pointDistance(geometry, center) <= radius;
+    } else if (geometry.type == 'LineString' || geometry.type == 'Polygon') {
+      var point = {};
+      var coordinates;
+      if (geometry.type == 'Polygon') {
+        // it's enough to check the exterior ring of the Polygon
+        coordinates = geometry.coordinates[0];
+      } else {
+        coordinates = geometry.coordinates;
+      }
+      for (var i in coordinates) {
+        point.coordinates = coordinates[i];
+        if (gju.pointDistance(point, center) > radius) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
   
   // adapted from http://paulbourke.net/geometry/polyarea/javascript.txt
   gju.area = function(polygon) {

@@ -47,25 +47,21 @@ h2. Point in polygon
 
 h2. Radius filtering
 
-WARNING: Only works against points right now. TODO: Lines and polygons
-
-If you retrieve a bunch of results from a bounding box query (common with R-Tree geo DBs), but you want to filter the rectangular result set by circular radius:
+If you retrieve a bunch of results from a bounding box query (common with R-tree geo DBs), but you want to filter the rectangular result set by circular radius:
 
 <pre>
   <code>
     // get the center of the original bounding box
     var center = gju.rectangleCentroid({
       "type": "Polygon",
-      "coordinates": [[[-122.677, 45.523],[-122.675, 45.524]]]
+      "coordinates": [[[-122.677, 45.523], [-122.675, 45.524]]]
     }),
-    // draw a circular polygon from the center of
-    // the bounding box with a 100 meter radius
-    // but only in your head!
+    // radius (in meters)
     radius = 100;
-    
-    for (var point in listOfPointsReturnedFromBoundingBoxQuery) {
-      if (gju.pointDistance(point, center) <= radius) {
-        // ... do stuff with points inside the circle
+
+    for (var i in geometryObjectsWithinBBox) {
+      if (gju.geometryWithinRadius(geometryObjectsWithinBBox[i], center, radius)) {
+        // ... do stuff with objects inside the circle
       } 
     }
   </code>
