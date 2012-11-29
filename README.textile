@@ -6,11 +6,11 @@ Some algorithms adapted from "bjwbell/canvas-geolib":https://github.com/bjwbell/
 
 h2. How to use!
 
-Load up in a browser OR with your favorite "CommonJS module implementation":http://wiki.commonjs.org/wiki/Modules/1.1:
+Load up in a browser OR `npm install geojson-utils`
 
 <pre>
   <code>
-    var gju = require('geojson-utils.js');
+    var gju = require('geojson-utils');
   </pre>
 </code>
 
