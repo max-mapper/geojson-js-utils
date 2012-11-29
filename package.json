@@ -1,0 +1,20 @@
+{
+  "name": "geojson-utils",
+  "version": "0.0.1",
+  "description": "GeoJSON Utilities for JavaScript",
+  "main": "geojson-utils.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/abernier/geojson-js-utils.git"
+  },
+  "keywords": [
+    "geojson",
+    "geocouch"
+  ],
+  "author": "Max Ogden",
+  "license": "MIT",
+  "readmeFilename": "README.textile"
+}
