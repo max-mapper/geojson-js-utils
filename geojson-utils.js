@@ -72,15 +72,15 @@
   }
 
   // written with help from @tautologe
-  gju.drawCircle = function (radiusInMeters, centerPoint) {
+  gju.drawCircle = function (radiusInMeters, centerPoint, steps) {
     var center = [centerPoint.coordinates[1], centerPoint.coordinates[0]],
       dist = (radiusInMeters / 1000) / 6371,
       // convert meters to radiant
       radCenter = [gju.numberToRadius(center[0]), gju.numberToRadius(center[1])],
-      steps = 15,
+      steps = steps || 15,
       // 15 sided circle
       poly = [[center[0], center[1]]];
-    for (var i = 0; i < steps + 1; i++) {
+    for (var i = 0; i < steps; i++) {
       var brng = 2 * Math.PI * i / steps;
       var lat = Math.asin(Math.sin(radCenter[0]) * Math.cos(dist)
               + Math.cos(radCenter[0]) * Math.sin(dist) * Math.cos(brng));
@@ -96,12 +96,13 @@
     };
   }
 
+  // assumes rectangle starts at lower left point
   gju.rectangleCentroid = function (rectangle) {
     var bbox = rectangle.coordinates[0];
     var xmin = bbox[0][0],
       ymin = bbox[0][1],
-      xmax = bbox[1][0],
-      ymax = bbox[1][1];
+      xmax = bbox[2][0],
+      ymax = bbox[2][1];
     var xwidth = xmax - xmin;
     var ywidth = ymax - ymin;
     return {

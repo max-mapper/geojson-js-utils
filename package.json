@@ -1,10 +1,10 @@
 {
   "name": "geojson-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "GeoJSON Utilities for JavaScript",
   "main": "geojson-utils.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
