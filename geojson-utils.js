@@ -71,7 +71,7 @@
     return number * 180 / Math.PI;
   }
 
-  // written with help from @tautologe 
+  // written with help from @tautologe
   gju.drawCircle = function (radiusInMeters, centerPoint) {
     var center = [centerPoint.coordinates[1], centerPoint.coordinates[0]],
       dist = (radiusInMeters / 1000) / 6371,
@@ -313,4 +313,25 @@
       }
     });
   }
+
+  // http://www.movable-type.co.uk/scripts/latlong.html#destPoint
+  gju.destinationPoint = function (pt, brng, dist) {
+    dist = dist/6371;  // convert dist to angular distance in radians
+    brng = gju.numberToRadius(brng);
+
+    var lat1 = gju.numberToRadius(pt.coordinates[0]);
+    var lon1 = gju.numberToRadius(pt.coordinates[1]);
+
+    var lat2 = Math.asin( Math.sin(lat1)*Math.cos(dist) +
+                          Math.cos(lat1)*Math.sin(dist)*Math.cos(brng) );
+    var lon2 = lon1 + Math.atan2(Math.sin(brng)*Math.sin(dist)*Math.cos(lat1),
+                                 Math.cos(dist)-Math.sin(lat1)*Math.sin(lat2));
+    lon2 = (lon2+3*Math.PI) % (2*Math.PI) - Math.PI;  // normalise to -180..+180º
+
+    return {
+      'type': 'Point',
+      'coordinates': [gju.numberToDegree(lat2), gju.numberToDegree(lon2)]
+    };
+  };
+
 })();
