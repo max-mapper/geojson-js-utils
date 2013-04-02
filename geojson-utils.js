@@ -47,20 +47,46 @@
   }
 
   // adapted from http://jsfromhell.com/math/is-point-in-poly
-  gju.pointInPolygon = function (point, polygon) {
-    var x = point.coordinates[1],
-      y = point.coordinates[0],
-      poly = polygon.coordinates[0]; //TODO: support polygons with holes
-    for (var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i) {
-      var px = poly[i][1],
-        py = poly[i][0],
-        jx = poly[j][1],
-        jy = poly[j][0];
+  var insideCoordinates = function (x, y, coords) {
+    var inside = false;
+
+    for (i = -1, l = coords.length, j = l - 1; ++i < l; j = i) {
+      var px = coords[i][1],
+          py = coords[i][0],
+          jx = coords[j][1],
+          jy = coords[j][0];
       if (((py <= y && y < jy) || (jy <= y && y < py)) && (x < (jx - px) * (y - py) / (jy - py) + px)) {
-        c = [point];
+        inside = true;
       }
     }
-    return c;
+
+    return inside;
+  }
+
+  gju.pointInPolygon = function (point, polygon) {
+    var inside = false,
+        x = point.coordinates[1],
+        y = point.coordinates[0],
+        coordinates = polygon.coordinates;
+
+    if (polygon.type == "Polygon") coordinates = [ polygon.coordinates ]
+
+    for (var i = 0; i < coordinates.length; i++) {
+      var coords  = coordinates[i];
+      var borders = coords[0];
+
+      if ( insideCoordinates(x, y, borders) ) {
+        var insideHole = false
+
+        for (var ii = 1; ii < coords.length; ii++) {
+          if ( insideCoordinates(x, y, coords[ii]) ) insideHole = true;
+        }
+
+        if (!insideHole) inside = true;
+      }
+    }
+
+    return inside;
   }
 
   gju.numberToRadius = function (number) {
