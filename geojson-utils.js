@@ -46,6 +46,8 @@
     return intersects;
   }
 
+  // Bounding Box
+
   function boundingBoxAroundPolyCoords (coords) {
     var xAll = [], yAll = []
 
@@ -63,6 +65,9 @@
   gju.pointInBoundingBox = function (point, bounds) {
     return !(point.coordinates[1] < bounds[0][0] || point.coordinates[1] > bounds[1][0] || point.coordinates[0] < bounds[0][1] || point.coordinates[0] > bounds[1][1]) 
   }
+
+  // Point in Polygon
+  // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html#Listing the Vertices
 
   function pnpoly (x,y,coords) {
     var vert = [ [0,0] ]
