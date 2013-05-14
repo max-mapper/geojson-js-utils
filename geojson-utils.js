@@ -46,47 +46,62 @@
     return intersects;
   }
 
-  // adapted from http://jsfromhell.com/math/is-point-in-poly
-  var insideCoordinates = function (x, y, coords) {
-    var inside = false;
+  // Bounding Box
 
-    for (i = -1, l = coords.length, j = l - 1; ++i < l; j = i) {
-      var px = coords[i][1],
-          py = coords[i][0],
-          jx = coords[j][1],
-          jy = coords[j][0];
-      if (((py <= y && y < jy) || (jy <= y && y < py)) && (x < (jx - px) * (y - py) / (jy - py) + px)) {
-        inside = true;
-      }
+  function boundingBoxAroundPolyCoords (coords) {
+    var xAll = [], yAll = []
+
+    for (var i = 0; i < coords[0].length; i++) {
+      xAll.push(coords[0][i][1])
+      yAll.push(coords[0][i][0])
     }
 
-    return inside;
+    xAll = xAll.sort(function (a,b) { return a - b })
+    yAll = yAll.sort(function (a,b) { return a - b })
+
+    return [ [xAll[0], yAll[0]], [xAll[xAll.length - 1], yAll[yAll.length - 1]] ]
   }
 
-  gju.pointInPolygon = function (point, polygon) {
-    var inside = false,
-        x = point.coordinates[1],
-        y = point.coordinates[0],
-        coordinates = polygon.coordinates;
+  gju.pointInBoundingBox = function (point, bounds) {
+    return !(point.coordinates[1] < bounds[0][0] || point.coordinates[1] > bounds[1][0] || point.coordinates[0] < bounds[0][1] || point.coordinates[0] > bounds[1][1]) 
+  }
 
-    if (polygon.type == "Polygon") coordinates = [ polygon.coordinates ]
+  // Point in Polygon
+  // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html#Listing the Vertices
 
-    for (var i = 0; i < coordinates.length; i++) {
-      var coords  = coordinates[i];
-      var borders = coords[0];
+  function pnpoly (x,y,coords) {
+    var vert = [ [0,0] ]
 
-      if ( insideCoordinates(x, y, borders) ) {
-        var insideHole = false
-
-        for (var ii = 1; ii < coords.length; ii++) {
-          if ( insideCoordinates(x, y, coords[ii]) ) insideHole = true;
-        }
-
-        if (!insideHole) inside = true;
+    for (var i = 0; i < coords.length; i++) {
+      for (var j = 0; j < coords[i].length; j++) {
+        vert.push(coords[i][j])
       }
+      vert.push([0,0])
     }
 
-    return inside;
+    var inside = false
+    for (var i = 0, j = vert.length - 1; i < vert.length; j = i++) {
+      if (((vert[i][0] > y) != (vert[j][0] > y)) && (x < (vert[j][1] - vert[i][1]) * (y - vert[i][0]) / (vert[j][0] - vert[i][0]) + vert[i][1])) inside = !inside
+    }
+
+    return inside
+  }
+
+  gju.pointInPolygon = function (p, poly) {
+    var coords = (poly.type == "Polygon") ? [ poly.coordinates ] : poly.coordinates
+
+    var insideBox = false
+    for (var i = 0; i < coords.length; i++) {
+      if (gju.pointInBoundingBox(p, boundingBoxAroundPolyCoords(coords[i]))) insideBox = true
+    }
+    if (!insideBox) return false
+
+    var insidePoly = false
+    for (var i = 0; i < coords.length; i++) {
+      if (pnpoly(p.coordinates[1], p.coordinates[0], coords[i])) insidePoly = true
+    }
+
+    return insidePoly
   }
 
   gju.numberToRadius = function (number) {
