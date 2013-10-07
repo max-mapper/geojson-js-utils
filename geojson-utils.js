@@ -76,6 +76,7 @@
       for (var j = 0; j < coords[i].length; j++) {
         vert.push(coords[i][j])
       }
+	  vert.push(coords[i][0])
       vert.push([0,0])
     }
 
