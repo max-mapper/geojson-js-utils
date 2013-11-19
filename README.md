@@ -61,6 +61,7 @@ for (var i in geometryObjectsWithinBBox) {
     // ... do stuff with objects inside the circle
   }
 }
+```
 
 ## Distance between two points
 
