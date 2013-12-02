@@ -362,8 +362,8 @@
     dist = dist/6371;  // convert dist to angular distance in radians
     brng = gju.numberToRadius(brng);
 
-    var lat1 = gju.numberToRadius(pt.coordinates[0]);
-    var lon1 = gju.numberToRadius(pt.coordinates[1]);
+    var lon1 = gju.numberToRadius(pt.coordinates[0]);
+    var lat1 = gju.numberToRadius(pt.coordinates[1]);
 
     var lat2 = Math.asin( Math.sin(lat1)*Math.cos(dist) +
                           Math.cos(lat1)*Math.sin(dist)*Math.cos(brng) );
@@ -373,7 +373,7 @@
 
     return {
       'type': 'Point',
-      'coordinates': [gju.numberToDegree(lat2), gju.numberToDegree(lon2)]
+      'coordinates': [gju.numberToDegree(lon2), gju.numberToDegree(lat2)]
     };
   };
 

@@ -16,7 +16,7 @@ var gju = require('geojson-utils');
 
 You now have an object named `gju` that contains all of the helper functions.
 
-Remember, GeoJSON coordinates are ordered [y,x] to comply with the Open
+Remember, GeoJSON coordinates are ordered [x,y] or [longitude,latitude] to comply with the Open
 Geospatial Consortium's recommendation!
 
 ## Line intersections
