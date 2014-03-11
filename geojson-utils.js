@@ -105,6 +105,34 @@
     return insidePoly
   }
 
+  // support multi (but not donut) polygons
+  gju.pointInMultiPolygon = function (p, poly) {
+    var coords_array = (poly.type == "MultiPolygon") ? [ poly.coordinates ] : poly.coordinates
+
+    var insideBox = false
+    var insidePoly = false
+    for (var i = 0; i < coords_array.length; i++){
+      var coords = coords_array[i];
+      for (var j = 0; j < coords.length; j++) {
+        if (!insideBox){
+          if (gju.pointInBoundingBox(p, boundingBoxAroundPolyCoords(coords[j]))) {
+            insideBox = true
+          }
+        }
+      }
+      if (!insideBox) return false
+      for (var j = 0; j < coords.length; j++) {
+        if (!insidePoly){
+          if (pnpoly(p.coordinates[1], p.coordinates[0], coords[j])) {
+            insidePoly = true
+          }
+        }
+      }
+    }
+
+    return insidePoly
+  }
+
   gju.numberToRadius = function (number) {
     return number * Math.PI / 180;
   }

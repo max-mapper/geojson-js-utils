@@ -50,4 +50,15 @@ poly = {"type": "Polygon", "coordinates": [[[0, 2], [2, 2], [2,0]]]};
 
 if (gju.pointInPolygon(point,poly)) throw new Error();
 
+var singlepoint = {"type": "Point", "coordinates": [-1, -1]};
+var multipoly = {"type": "MultiPolygon",
+			        "coordinates": [ 
+			        	[ [ [0,0],[0,10],[10,10],[10,0],[0,0] ] ] , 
+			        	[ [ [10,10],[10,20],[20,20],[20,10],[10,10] ] ] 
+			        ]
+			    };
+
+if (!gju.pointInMultiPolygon(point,multipoly)) throw new Error();
+if (gju.pointInMultiPolygon(singlepoint,multipoly)) throw new Error();
+
 console.log('all passed')
