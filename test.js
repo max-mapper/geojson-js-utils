@@ -37,4 +37,17 @@ var fairyLand = {"type": "Point", "coordinates": [-122.260000705719, 37.80919060
 var navalBase = {"type": "Point", "coordinates": [-122.32083320617676, 37.78774223089045]}
 if (Math.floor(gju.pointDistance(fairyLand, navalBase)) !== 5852) throw new Error()
 
+
+var point = {"type":  "Point", "coordinates": [ 705, 261 ]};
+var poly = {"type": "Polygon", "coordinates": [ [702.5,344.50000000000006], [801.890625,
+	245.109375], [749.7351485148515,234.28465346534657] ]};
+
+if (gju.pointInPolygon(point,poly)) throw new Error();
+
+point = {"type": "Point", "coordinates": [0.5, 0.5]};
+
+poly = {"type": "Polygon", "coordinates": [[[0, 2], [2, 2], [2,0]]]};
+
+if (gju.pointInPolygon(point,poly)) throw new Error();
+
 console.log('all passed')
