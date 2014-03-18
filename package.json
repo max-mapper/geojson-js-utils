@@ -1,6 +1,6 @@
 {
   "name": "geojson-utils",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "GeoJSON Utilities for JavaScript",
   "main": "geojson-utils.js",
   "scripts": {
