@@ -22,11 +22,11 @@ Geospatial Consortium's recommendation!
 ## Line intersections
 
 ```javascript
-gju.linesIntersect({ "type": "LineString", "coordinates": [[0, 2], [5, 2]] },
+gju.lineStringsIntersect({ "type": "LineString", "coordinates": [[0, 2], [5, 2]] },
                  { "type": "LineString", "coordinates": [[3, 0], [3, 4], [4,4], [4,0]] })
 // [{"type":"Point","coordinates":[2,3]},{"type":"Point","coordinates":[2,4]}]
 
-gju.linesIntersect({ "type": "LineString", "coordinates": [[0, 2], [5, 2]] },
+gju.lineStringsIntersect({ "type": "LineString", "coordinates": [[0, 2], [5, 2]] },
                  { "type": "LineString", "coordinates": [[0, 0], [5, 0]] })
 // false
 ```
