@@ -1,0 +1,22 @@
+{
+  "name": "geojson-utils",
+  "version": "1.1.0",
+  "authors": [
+    "Max Ogden"
+  ],
+  "description": "GeoJSON Utilities for JavaScript",
+  "main": "geojson-utils.js",
+  "keywords": [
+    "geojson",
+    "geocouch"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ]
+}
