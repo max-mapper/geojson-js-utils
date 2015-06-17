@@ -12,20 +12,20 @@
     for (var i = 0; i <= l1.coordinates.length - 2; ++i) {
       for (var j = 0; j <= l2.coordinates.length - 2; ++j) {
         var a1 = {
-          x: l1.coordinates[i][1],
-          y: l1.coordinates[i][0]
+          x: l1.coordinates[i][0],
+          y: l1.coordinates[i][1]
         },
           a2 = {
-            x: l1.coordinates[i + 1][1],
-            y: l1.coordinates[i + 1][0]
+            x: l1.coordinates[i + 1][0],
+            y: l1.coordinates[i + 1][1]
           },
           b1 = {
-            x: l2.coordinates[j][1],
-            y: l2.coordinates[j][0]
+            x: l2.coordinates[j][0],
+            y: l2.coordinates[j][1]
           },
           b2 = {
-            x: l2.coordinates[j + 1][1],
-            y: l2.coordinates[j + 1][0]
+            x: l2.coordinates[j + 1][0],
+            y: l2.coordinates[j + 1][1]
           },
           ua_t = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x),
           ub_t = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x),
@@ -52,8 +52,8 @@
     var xAll = [], yAll = []
 
     for (var i = 0; i < coords[0].length; i++) {
-      xAll.push(coords[0][i][1])
-      yAll.push(coords[0][i][0])
+      xAll.push(coords[0][i][0])
+      yAll.push(coords[0][i][1])
     }
 
     xAll = xAll.sort(function (a,b) { return a - b })
@@ -229,12 +229,12 @@
 
     for (var i = 0; i < points.length; j = i++) {
       var p1 = {
-        x: points[i][1],
-        y: points[i][0]
+        x: points[i][0],
+        y: points[i][1]
       };
       var p2 = {
-        x: points[j][1],
-        y: points[j][0]
+        x: points[j][0],
+        y: points[j][1]
       };
       area += p1.x * p2.y;
       area -= p1.y * p2.x;
@@ -255,12 +255,12 @@
 
     for (var i = 0; i < points.length; j = i++) {
       var p1 = {
-        x: points[i][1],
-        y: points[i][0]
+        x: points[i][0],
+        y: points[i][1]
       };
       var p2 = {
-        x: points[j][1],
-        y: points[j][0]
+        x: points[j][0],
+        y: points[j][1]
       };
       f = p1.x * p2.y - p2.x * p1.y;
       x += (p1.x + p2.x) * f;
