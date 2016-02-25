@@ -145,7 +145,7 @@
   gju.drawCircle = function (radiusInMeters, centerPoint, steps) {
     var center = [centerPoint.coordinates[1], centerPoint.coordinates[0]],
       dist = (radiusInMeters / 1000) / 6371,
-      // convert meters to radiant
+      // convert meters to radians
       radCenter = [gju.numberToRadius(center[0]), gju.numberToRadius(center[1])],
       steps = steps || 15,
       // 15 sided circle
