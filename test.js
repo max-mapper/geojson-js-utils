@@ -61,4 +61,15 @@ var multipoly = {"type": "MultiPolygon",
 if (!gju.pointInMultiPolygon(point,multipoly)) throw new Error();
 if (gju.pointInMultiPolygon(singlepoint,multipoly)) throw new Error();
 
+//test gju.area
+if(gju.area(box) !== 100) throw new Error();
+var donetBox = {
+  "type": "Polygon",
+    "coordinates": [
+      [ [0, 0], [10, 0], [10, 10], [0, 10] ],
+      [ [3, 3], [6, 3], [6, 6], [3, 6]  ]
+    ]
+}
+if(gju.area(donetBox) !== (100-9)) throw new Error();
+
 console.log('all passed')
