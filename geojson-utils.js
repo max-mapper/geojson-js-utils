@@ -221,27 +221,32 @@
 
   // adapted from http://paulbourke.net/geometry/polyarea/javascript.txt
   gju.area = function (polygon) {
-    var area = 0;
-    // TODO: polygon holes at coordinates[1]
-    var points = polygon.coordinates[0];
-    var j = points.length - 1;
-    var p1, p2;
+    var areaTotal = 0;
+    var count = polygon.coordinates.length;
+    for(var polyIndex = 0; polyIndex < count; polyIndex++){
+        var area = 0;
+        var points = polygon.coordinates[polyIndex];
+        var j = points.length - 1;
+        var p1, p2;
 
-    for (var i = 0; i < points.length; j = i++) {
-      var p1 = {
-        x: points[i][1],
-        y: points[i][0]
-      };
-      var p2 = {
-        x: points[j][1],
-        y: points[j][0]
-      };
-      area += p1.x * p2.y;
-      area -= p1.y * p2.x;
+        for (var i = 0; i < points.length; j = i++) {
+        var p1 = {
+          x: points[i][1],
+          y: points[i][0]
+        };
+        var p2 = {
+          x: points[j][1],
+          y: points[j][0]
+        };
+        area += p1.x * p2.y;
+        area -= p1.y * p2.x;
+        }
+
+        area /= 2;
+        areaTotal += Math.pow(-1, polyIndex)*area;
     }
-
-    area /= 2;
-    return area;
+   
+    return areaTotal;
   },
 
   // adapted from http://paulbourke.net/geometry/polyarea/javascript.txt
