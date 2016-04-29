@@ -1,5 +1,5 @@
 (function () {
-  var gju = this.gju = {};
+  var gju = {};
 
   // Export the geojson object for **CommonJS**
   if (typeof module !== 'undefined' && module.exports) {
